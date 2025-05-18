@@ -13,7 +13,7 @@ else if (hour >= 13 && hour <= 17) { time = "Afternoon" }
 else { time = "Evening" }
 
 let header = document.querySelector(".heading");
-header.textContent = `Good ${time}, Sankalp`;
+header.textContent = `Good ${time}, Ujjwal`;
 
 // Time Keeping
 let name = month[d.getMonth()];
