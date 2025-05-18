@@ -1,0 +1,390 @@
+/* CSS Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+body {
+  line-height: 1.5;
+  background: linear-gradient(135deg, #e0e7ff, #a7f3d0);
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+  overflow-x: hidden;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Confetti */
+.confetti {
+  height: 100vh;
+  width: 100vw;
+  background-image: url(https://editablegifs.com/download/confetti_gif-transparent_background-squares__confetti-2.gif);
+  background-size: cover;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.active-confetti {
+  opacity: 1;
+  visibility: visible;
+  animation: confetti 5s 1 linear forwards;
+}
+
+@keyframes confetti {
+  0% { opacity: 0; visibility: hidden; }
+  10% { opacity: 0; visibility: visible; }
+  20% { opacity: 1; }
+  70% { opacity: 1; }
+  80% { opacity: 0; }
+  100% { opacity: 0; visibility: hidden; }
+}
+
+/* Layout */
+.container {
+  display: flex;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.sidebar {
+  width: 300px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+main {
+  flex: 1;
+  padding: 20px;
+}
+
+/* Sidebar */
+.app-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.greeting {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.heading {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #4b5563;
+}
+
+.date {
+  font-size: 1.2rem;
+  color: #6b7280;
+}
+
+.duration {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.duration_btn {
+  padding: 8px 16px;
+  background: #f3f4f6;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.duration_btn:hover {
+  background: #e5e7eb;
+}
+
+.add_habit_btn {
+  padding: 12px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.add_habit_btn:hover {
+  background: #2563eb;
+}
+
+/* Main Header */
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.range_and_navigation {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.range {
+  font-size: 1.2rem;
+  color: #1f2937;
+}
+
+.navigation {
+  display: flex;
+  gap: 10px;
+}
+
+.nav_button {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 8px;
+  background-color: #ffffff;
+  background-size: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.1s;
+}
+
+.nav_button:active {
+  transform: scale(0.95);
+}
+
+.previous {
+  background-image: url(https://cdn-icons-png.flaticon.com/512/130/130882.png);
+}
+
+.next {
+  background-image: url(https://cdn-icons-png.flaticon.com/512/130/130884.png);
+}
+
+.rem_time {
+  font-size: 1rem;
+  color: #4b5563;
+}
+
+/* Progress */
+.progress {
+  margin-bottom: 20px;
+}
+
+.progress_bar {
+  height: 12px;
+  background: #e5e7eb;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.progress_visualiser {
+  height: 100%;
+  background: linear-gradient(to right, #8b5cf6, #ec4899);
+  border-radius: 6px;
+  transition: width 0.3s;
+}
+
+.progress_stat {
+  font-size: 0.9rem;
+  color: #1f2937;
+  margin-top: 8px;
+  display: block;
+}
+
+/* Habit Table */
+.habit_table {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.habit-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.habit-card h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 15px;
+}
+
+.habit-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  text-align: center;
+}
+
+.habit-days span {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+input[type="checkbox"] {
+  display: none;
+}
+
+.habit-days label {
+  display: block;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: #e5e7eb;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+input:checked + label.exercise { background: #ae82ff; }
+input:checked + label.dsa { background: #ff4760; }
+input:checked + label.cat { background: #ff8f6d; }
+input:checked + label.meditation { background: #ffc85a; }
+input:checked + label.brainstorming { background: #518eff; }
+
+/* Form */
+form {
+  width: 350px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  display: none;
+  flex-direction: column;
+  gap: 15px;
+}
+
+form h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  text-align: center;
+}
+
+form .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+form input,
+form select {
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #f9fafb;
+}
+
+form input:focus,
+form select:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+form label.activity {
+  position: absolute;
+  font-size: 0.9rem;
+  color: #6b7280;
+  transform: translate(10px, 10px);
+  transition: 0.2s;
+}
+
+input#activity:focus + label.activity,
+input#activity:not(:placeholder-shown) + label.activity {
+  transform: translate(10px, -20px);
+  background: #ffffff;
+  padding: 0 5px;
+  font-size: 0.8rem;
+}
+
+button.add_habit {
+  padding: 12px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+button.add_habit:hover {
+  background: #2563eb;
+}
+
+p#output {
+  color: #dc2626;
+  font-size: 0.9rem;
+  text-align: center;
+}

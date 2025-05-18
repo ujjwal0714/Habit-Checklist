@@ -1,0 +1,173 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Planner</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="confetti"></div>
+    <div class="container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <h1 class="app-title">Habit Planner</h1>
+            <div class="greeting">
+                <span class="heading">Good Morning</span>
+                <span class="date">1 January, 2025</span>
+            </div>
+            <div class="duration">
+                <button class="duration_btn" data-duration="week">Week</button>
+                <button class="duration_btn" data-duration="month">Month</button>
+                <button class="duration_btn" data-duration="year">Year</button>
+                <button class="duration_btn" data-duration="all">All Time</button>
+            </div>
+            <button class="add_habit_btn">+ Add Habit</button>
+        </nav>
+
+        <!-- Main Content -->
+        <main>
+            <header class="main-header">
+                <div class="range_and_navigation">
+                    <span class="range">1 January, 2025 - 7 January, 2025</span>
+                    <div class="navigation">
+                        <button class="nav_button previous"></button>
+                        <button class="nav_button next"></button>
+                    </div>
+                </div>
+                <div class="rem_time">23 hrs 59 minutes 59 seconds till bedtime.</div>
+            </header>
+
+            <!-- Progress Section -->
+            <section class="progress">
+                <div class="progress_bar">
+                    <div class="progress_visualiser"></div>
+                </div>
+                <span class="progress_stat">0% Achieved, Go on!</span>
+            </section>
+
+            <!-- Habit Table -->
+            <section class="habit_table">
+                <div class="habit-card">
+                    <h3>🟣 💪 Exercise</h3>
+                    <div class="habit-days">
+                        <span>Mon</span><input type="checkbox" id="habit_exercise_0"><label for="habit_exercise_0" class="exercise"></label>
+                        <span>Tue</span><input type="checkbox" id="habit_exercise_1"><label for="habit_exercise_1" class="exercise"></label>
+                        <span>Wed</span><input type="checkbox" id="habit_exercise_2"><label for="habit_exercise_2" class="exercise"></label>
+                        <span>Thu</span><input type="checkbox" id="habit_exercise_3"><label for="habit_exercise_3" class="exercise"></label>
+                        <span>Fri</span><input type="checkbox" id="habit_exercise_4"><label for="habit_exercise_4" class="exercise"></label>
+                        <span>Sat</span><input type="checkbox" id="habit_exercise_5"><label for="habit_exercise_5" class="exercise"></label>
+                        <span>Sun</span><input type="checkbox" id="habit_exercise_6"><label for="habit_exercise_6" class="exercise"></label>
+                    </div>
+                </div>
+                <div class="habit-card">
+                    <h3>🔴 🧑‍💻 DSA</h3>
+                    <div class="habit-days">
+                        <span>Mon</span><input type="checkbox" id="habit_dsa_0"><label for="habit_dsa_0" class="dsa"></label>
+                        <span>Tue</span><input type="checkbox" id="habit_dsa_1"><label for="habit_dsa_1" class="dsa"></label>
+                        <span>Wed</span><input type="checkbox" id="habit_dsa_2"><label for="habit_dsa_2" class="dsa"></label>
+                        <span>Thu</span><input type="checkbox" id="habit_dsa_3"><label for="habit_dsa_3" class="dsa"></label>
+                        <span>Fri</span><input type="checkbox" id="habit_dsa_4"><label for="habit_dsa_4" class="dsa"></label>
+                        <span>Sat</span><input type="checkbox" id="habit_dsa_5"><label for="habit_dsa_5" class="dsa"></label>
+                        <span>Sun</span><input type="checkbox" id="habit_dsa_6"><label for="habit_dsa_6" class="dsa"></label>
+                    </div>
+                </div>
+                <div class="habit-card">
+                    <h3>🟠 🏫 CAT Questions</h3>
+                    <div class="habit-days">
+                        <span>Mon</span><input type="checkbox" id="habit_cat_0"><label for="habit_cat_0" class="cat"></label>
+                        <span>Tue</span><input type="checkbox" id="habit_cat_1"><label for="habit_cat_1" class="cat"></label>
+                        <span>Wed</span><input type="checkbox" id="habit_cat_2"><label for="habit_cat_2" class="cat"></label>
+                        <span>Thu</span><input type="checkbox" id="habit_cat_3"><label for="habit_cat_3" class="cat"></label>
+                        <span>Fri</span><input type="checkbox" id="habit_cat_4"><label for="habit_cat_4" class="cat"></label>
+                        <span>Sat</span><input type="checkbox" id="habit_cat_5"><label for="habit_cat_5" class="cat"></label>
+                        <span>Sun</span><input type="checkbox" id="habit_cat_6"><label for="habit_cat_6" class="cat"></label>
+                    </div>
+                </div>
+                <div class="habit-card">
+                    <h3>🟡 🧘 Meditate</h3>
+                    <div class="habit-days">
+                        <span>Mon</span><input type="checkbox" id="habit_meditate_0"><label for="habit_meditate_0" class="meditation"></label>
+                        <span>Tue</span><input type="checkbox" id="habit_meditate_1"><label for="habit_meditate_1" class="meditation"></label>
+                        <span>Wed</span><input type="checkbox" id="habit_meditate_2"><label for="habit_meditate_2" class="meditation"></label>
+                        <span>Thu</span><input type="checkbox" id="habit_meditate_3"><label for="habit_meditate_3" class="meditation"></label>
+                        <span>Fri</span><input type="checkbox" id="habit_meditate_4"><label for="habit_meditate_4" class="meditation"></label>
+                        <span>Sat</span><input type="checkbox" id="habit_meditate_5"><label for="habit_meditate_5" class="meditation"></label>
+                        <span>Sun</span><input type="checkbox" id="habit_meditate_6"><label for="habit_meditate_6" class="meditation"></label>
+                    </div>
+                </div>
+                <div class="habit-card">
+                    <h3>🔵 🧠 Brainstorming</h3>
+                    <div class="habit-days">
+                        <span>Mon</span><input type="checkbox" id="habit_brainstorming_0"><label for="habit_brainstorming_0" class="brainstorming"></label>
+                        <span>Tue</span><input type="checkbox" id="habit_brainstorming_1"><label for="habit_brainstorming_1" class="brainstorming"></label>
+                        <span>Wed</span><input type="checkbox" id="habit_brainstorming_2"><label for="habit_brainstorming_2" class="brainstorming"></label>
+                        <span>Thu</span><input type="checkbox" id="habit_brainstorming_3"><label for="habit_brainstorming_3" class="brainstorming"></label>
+                        <span>Fri</span><input type="checkbox" id="habit_brainstorming_4"><label for="habit_brainstorming_4" class="brainstorming"></label>
+                        <span>Sat</span><input type="checkbox" id="habit_brainstorming_5"><label for="habit_brainstorming_5" class="brainstorming"></label>
+                        <span>Sun</span><input type="checkbox" id="habit_brainstorming_6"><label for="habit_brainstorming_6" class="brainstorming"></label>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Add Habit Form -->
+    <form id="habit_addn_form">
+        <button type="button" class="close">❌</button>
+        <h2>Add Habit</h2>
+        <input type="text" id="activity" placeholder=" ">
+        <label for="activity" class="activity">Habit</label>
+        <select id="color">
+            <option value="blue">Blue</option>
+            <option value="red">Red</option>
+            <option value="yellow">Yellow</option>
+            <option value="greenyellow">Greenyellow</option>
+            <option value="white">Violet</option>
+        </select>
+        <button type="submit" class="add_habit">+ Add Habit</button>
+        <p id="output"></p>
+    </form>
+
+    <script src="script.js"></script>
+</body>
+</html>
